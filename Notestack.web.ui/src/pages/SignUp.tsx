@@ -41,12 +41,10 @@ const SignUp = () => {
 								<PasswordInput fieldName='Enter Password:' value={''} />
 								<PasswordInput fieldName='Confirm Password:' value={''} />
 							</div>
-							<CardFooter className='px-0 '>
-								<Button className='w-[40%] my-5' size='lg'>
-									Create your account
-								</Button>
-							</CardFooter>
 						</CardContent>
+						<CardFooter>
+							<Button size='lg'>Create your account</Button>
+						</CardFooter>
 					</Card>
 				</div>
 			</div>

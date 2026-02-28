@@ -27,7 +27,6 @@ const Login = () => {
 						</CardHeader>
 						<CardContent>
 							<div className=' flex flex-col gap-6 text-4xl'>
-								
 								<Field>
 									<FieldLabel htmlFor='email'>Enter your Email:</FieldLabel>
 									<Input
@@ -37,12 +36,10 @@ const Login = () => {
 								</Field>
 								<PasswordInput fieldName='Enter Password:' value={''} />
 							</div>
-							<CardFooter className='px-0'>
-								<Button className='w-[30%] my-5' size='lg'>
-									Submit
-								</Button>
-							</CardFooter>
 						</CardContent>
+						<CardFooter>
+							<Button size='lg'>Submit</Button>
+						</CardFooter>
 					</Card>
 				</div>
 			</div>

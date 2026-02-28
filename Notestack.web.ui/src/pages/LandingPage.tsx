@@ -19,6 +19,9 @@ const LandingPage = () => {
 					<Button onClick={() => navigate('/login')}>
 						Navigate to Login Page
 					</Button>
+					<Button onClick={() => navigate('/dashboard')}>
+						Navigate to dashboard Page
+					</Button>
 				</Card>
 			</div>
 		</>
