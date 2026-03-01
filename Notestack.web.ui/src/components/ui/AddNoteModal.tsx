@@ -7,8 +7,9 @@ import { Textarea } from './textarea';
 
 export const AddNoteModal = () => {
 	return (
-		<div className='backdrop-blur-sm flex items-center justify-center'>
-			<Card className='z-50 mx-auto w-[50%] max-w-lg mt-45'>
+		<div className='fixed inset-0 flex items-center justify-center'>
+			<div className='absolute inset-0 -z-10 bg-black/10 backdrop-blur-sm' />
+			<Card className='w-full max-w-lg m-10'>
 				<CardHeader>
 					<CardTitle className='text-3xl'>
 						Add Note<span className='mx-1'>➕</span>
@@ -23,15 +24,15 @@ export const AddNoteModal = () => {
 							placeholder='Go to gym at 5'></Input>
 					</Field>
 					<Field>
-						<FieldLabel htmlFor='addNote-textarea'>Title:</FieldLabel>
+						<FieldLabel htmlFor='addNote-textarea'>Description:</FieldLabel>
 						<Textarea id='addNote' placeholder='Add Description ' />
 					</Field>
 					<Field className='w-[40%]'>
 						<FieldLabel htmlFor='noteTag'>Tag:</FieldLabel>
-						<div className='relative flex items-center justify-center'>
+						<div className=' flex items-center justify-center'>
 							<Input id='noteTag' type='text' placeholder='#gym'></Input>
-							<Button className='adsolute right-3 mx-2'>
-								<Plus size={30} />
+							<Button className=' right-3 mx-2'>
+								<Plus size={26} />
 							</Button>
 						</div>
 					</Field>
