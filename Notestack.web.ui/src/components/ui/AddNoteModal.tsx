@@ -7,7 +7,7 @@ import { Textarea } from './textarea';
 
 export const AddNoteModal = () => {
 	return (
-		<div className='fixed inset-0 flex items-center justify-center'>
+		<div className='fixed inset-0 flex items-center justify-center '>
 			<div className='absolute inset-0 -z-10 bg-black/10 backdrop-blur-sm' />
 			<Card className='w-full max-w-lg m-10'>
 				<CardHeader>
