@@ -12,3 +12,5 @@ app.get('/',(req: Request, res: Response) =>{
         message: 'Server is healthy'
     })
 })
+
+export default app;
