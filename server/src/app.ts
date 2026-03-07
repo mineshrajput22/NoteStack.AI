@@ -1,4 +1,6 @@
 import express, { Application, Request, Response } from 'express';
+import authRoutes from './modules/auth/auth.route';
+import noteRoutes from './modules/note/note.route';
 import cors from 'cors';
 
 const app: Application = express();
@@ -12,5 +14,8 @@ app.get('/health', (req: Request, res: Response) => {
 		message: 'Server is healthy',
 	});
 });
+
+app.use('/auth', authRoutes);
+app.use('/notes', noteRoutes);
 
 export default app;

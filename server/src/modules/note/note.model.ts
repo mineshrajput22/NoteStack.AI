@@ -2,7 +2,7 @@ import mongoose, { Schema, Document, Model } from 'mongoose';
 
 export interface INote extends Document {
 	title: string;
-	description: string;
+	content: string;
 	user: mongoose.Types.ObjectId;
 	tags: string[];
 	isPinned: boolean;
@@ -13,7 +13,7 @@ export interface INote extends Document {
 const noteSchema = new Schema<INote>(
 	{
 		title: { type: String, required: true, trim: true },
-		description: { type: String },
+		content: { type: String },
 		user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
 		tags: {
 			type: [String],
