@@ -3,6 +3,9 @@ import * as z from 'zod';
 export const signUpschema = z
 	.object({
 		userName: z.string().min(1, { message: 'Username is required!' }),
+		name: z
+			.string({ message: 'Please enter valid name' })
+			.min(2, { message: 'Name must be atleast 2 characters' }),
 		email: z
 			.email({ message: 'Please enter valid email address' })
 			.min(1, { message: 'Email is required!' }),
