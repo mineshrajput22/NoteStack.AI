@@ -12,7 +12,7 @@ export const createNoteController = async (req: Request, res: Response) => {
 
 		const userId = req.user._id.toString();
 
-		const note = await createNote(title, content, tags || [], userId);
+		const note = await createNote(title, content, tags, userId);
 
 		res.status(201).json({
 			success: true,
