@@ -38,7 +38,7 @@ const SignUp = () => {
 
 			const response = await axiosInstance.post('/auth/signup', payload);
 
-			// console.log('RESPONSE:', response.data);
+			console.log('RESPONSE:', response.data);
 
 			if (response.data?.error) {
 				return;

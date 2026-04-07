@@ -2,12 +2,15 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import User, { IUser } from '../user/user.model';
 
-interface AuthResponse {
+interface AuthResponseSignup {
 	user: {
 		id: string;
 		name: string;
 		email: string;
 	};
+}
+
+interface AuthResponseLogin extends AuthResponseSignup {
 	token: string;
 }
 
@@ -21,11 +24,11 @@ export const registerUser = async (
 	name: string,
 	email: string,
 	password: string,
-): Promise<AuthResponse> => {
+): Promise<AuthResponseSignup> => {
 	const existingUser = await User.findOne({ email });
 
 	if (existingUser) {
-		throw new Error('User already exits');
+		throw new Error('User already exists');
 	}
 	const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -35,7 +38,7 @@ export const registerUser = async (
 		password: hashedPassword,
 	});
 
-	const token = generateToken(user._id.toString());
+	// const token = generateToken(user._id.toString());
 
 	return {
 		user: {
@@ -43,14 +46,13 @@ export const registerUser = async (
 			name: user.name,
 			email: user.email,
 		},
-		token,
 	};
 };
 
 export const loginUser = async (
 	email: string,
 	password: string,
-): Promise<AuthResponse> => {
+): Promise<AuthResponseLogin> => {
 	const user = await User.findOne({ email });
 
 	if (!user) {
