@@ -7,11 +7,43 @@ import {
 	CardHeader,
 	CardTitle,
 } from '@/components/ui/card';
-import { Field, FieldLabel } from '@/components/ui/field';
+import { Field, FieldLabel, FieldDescription } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
 import PasswordInput from '@/components/ui/PasswordInput';
+import { loginSchema, type LoginFormData } from '@/schemas/loginSchema';
+import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router';
+import axiosInstance from '@/api/axios';
+import { zodResolver } from '@hookform/resolvers/zod';
 
 const Login = () => {
+	const navigate = useNavigate();
+
+	const {
+		register,
+		handleSubmit,
+		formState: { errors, isSubmitting },
+	} = useForm<LoginFormData>({ resolver: zodResolver(loginSchema) });
+
+	const onSubmit = async (data: LoginFormData) => {
+		try {
+			const response = await axiosInstance.post('/auth/login', data);
+
+			if (response.data?.data?.error) {
+				return;
+			}
+
+			const token = response.data?.data?.token;
+
+			if (token) {
+				localStorage.setItem('token', token);
+				navigate('/dashboard', { replace: true });
+			}
+		} catch (err) {
+			console.error(err);
+		}
+	};
+
 	return (
 		<>
 			<div>
@@ -32,13 +64,27 @@ const Login = () => {
 									<Input
 										id='email'
 										type='text'
-										placeholder='johndoe@gmail.com'></Input>
+										placeholder='johndoe@gmail.com'
+										{...register('email')}
+									/>
+									<FieldDescription className='text-red-500'>
+										{errors.email && <p>{errors.email.message}</p>}
+									</FieldDescription>
 								</Field>
-								<PasswordInput fieldName='Enter Password:' value={''} />
+								<PasswordInput
+									fieldName='Enter Password:'
+									{...register('password')}
+									error={errors.password?.message}
+								/>
 							</div>
 						</CardContent>
 						<CardFooter>
-							<Button size='lg'>Submit</Button>
+							<Button
+								onClick={handleSubmit(onSubmit)}
+								disabled={isSubmitting}
+								size='lg'>
+								{isSubmitting ? 'Loging In..' : 'Submit'}
+							</Button>
 						</CardFooter>
 					</Card>
 				</div>

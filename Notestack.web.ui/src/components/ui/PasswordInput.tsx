@@ -5,9 +5,10 @@ import { Field, FieldDescription, FieldLabel } from './field';
 
 type PasswordInputProps = React.InputHTMLAttributes<HTMLInputElement> & {
 	fieldName: string;
+	error?: string;
 };
 
-const PasswordInput = ({ fieldName, ...props }: PasswordInputProps) => {
+const PasswordInput = ({ fieldName, error, ...props }: PasswordInputProps) => {
 	const [isShowPassword, setIsShowPassword] = useState(false);
 	return (
 		<>
@@ -18,17 +19,20 @@ const PasswordInput = ({ fieldName, ...props }: PasswordInputProps) => {
 						id='password'
 						type={isShowPassword ? 'text' : 'password'}
 						placeholder='********'
-						value={props.value}
+						{...props}
 					/>
 					<button
+						type='button'
 						className='absolute right-3 opacity-50 '
-						onClick={() => setIsShowPassword(!isShowPassword)}>
+						onClick={() => setIsShowPassword((prev) => !prev)}>
 						{isShowPassword ?
 							<EyeOff size={20} opacity={1} />
 						:	<Eye size={20} />}
 					</button>
 				</div>
-				<FieldDescription>{/* {"Error Message"} */}</FieldDescription>
+				{error && (
+					<FieldDescription className='text-red-500'>{error}</FieldDescription>
+				)}
 			</Field>
 		</>
 	);
