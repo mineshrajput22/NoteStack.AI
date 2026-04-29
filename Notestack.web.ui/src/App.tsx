@@ -4,15 +4,39 @@ import { Routes, Route } from 'react-router';
 import SignUp from './pages/SignUp';
 import AppLayout from './components/layout/AppLayout';
 import { Dashboard } from './pages/Dashboard';
+import ProtectedRoute from './components/layout/ProtectedRoute';
+import PublicRoute from './components/layout/PublicRoute';
 
 function App() {
 	return (
 		<Routes>
 			<Route element={<AppLayout />}>
 				<Route path='/' element={<LandingPage />} />
-				<Route path='/signup' element={<SignUp />} />
-				<Route path='/login' element={<Login />} />
-				<Route path='/dashboard' element={<Dashboard />} />
+				<Route
+					path='/signup'
+					element={
+						<PublicRoute>
+							<SignUp />
+						</PublicRoute>
+					}
+				/>
+				<Route
+					path='/login'
+					element={
+					
+						<PublicRoute>
+							<Login />
+						</PublicRoute>
+					}
+				/>
+				<Route
+					path='/dashboard'
+					element={
+						<ProtectedRoute>
+							<Dashboard />
+						</ProtectedRoute>
+					}
+				/>
 			</Route>
 		</Routes>
 	);
