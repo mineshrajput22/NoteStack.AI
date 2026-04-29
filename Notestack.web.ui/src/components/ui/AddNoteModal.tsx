@@ -22,6 +22,7 @@ export const AddNoteModal = ({ isOpen, onClose }: AddNoteModalProps) => {
 	const {
 		register,
 		handleSubmit,
+		reset,
 		formState: { errors },
 	} = useForm<noteFormData>({ resolver: zodResolver(noteSchema) });
 
@@ -40,6 +41,11 @@ export const AddNoteModal = ({ isOpen, onClose }: AddNoteModalProps) => {
 			const response = await axiosInstance.post('/notes', payload);
 
 			console.log('RESPONSE:', response.data);
+
+			//Clear form
+			reset();
+			//Close the modal
+			onClose();
 		} catch (err) {
 			console.error(err);
 		}
