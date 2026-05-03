@@ -7,8 +7,8 @@ import { Textarea } from './textarea';
 import { useForm } from 'react-hook-form';
 import { type noteFormData, noteSchema } from '@/schemas/noteSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
-import axiosInstance from '@/api/axios';
 import { useState } from 'react';
+import { useAddNote } from '@/hooks/useAddNote';
 
 type AddNoteModalProps = {
 	isOpen: boolean;
@@ -19,6 +19,8 @@ export const AddNoteModal = ({ isOpen, onClose }: AddNoteModalProps) => {
 	const [tagInput, setTagInput] = useState('');
 	const [tags, setTags] = useState<string[]>([]);
 
+	
+
 	const {
 		register,
 		handleSubmit,
@@ -26,30 +28,17 @@ export const AddNoteModal = ({ isOpen, onClose }: AddNoteModalProps) => {
 		formState: { errors },
 	} = useForm<noteFormData>({ resolver: zodResolver(noteSchema) });
 
-	if (!isOpen) return null;
-
-	const addNote = async (data: noteFormData) => {
-		try {
-			const { title, content, tags } = data;
-
-			const payload = {
-				title,
-				content,
-				tags,
-			};
-
-			const response = await axiosInstance.post('/notes', payload);
-
-			console.log('RESPONSE:', response.data);
-
-			//Clear form
+	const { mutate: addNote, isPending } = useAddNote({
+		onSuccess: () => {
 			reset();
-			//Close the modal
 			onClose();
-		} catch (err) {
-			console.error(err);
-		}
-	};
+		},
+		onError: (err) => {
+			console.error('Failed to add note:', err);
+		},
+	});
+
+	if (!isOpen) return null;
 
 	return (
 		<div className='fixed inset-0 flex items-center justify-center '>
@@ -96,7 +85,11 @@ export const AddNoteModal = ({ isOpen, onClose }: AddNoteModalProps) => {
 					</Field>
 				</CardContent>
 				<CardFooter className='gap-3'>
-					<Button onClick={handleSubmit(addNote)}>Add</Button>
+					<Button
+						onClick={handleSubmit((data) => addNote(data))}
+						disabled={isPending}>
+						{isPending ? 'Adding' : 'Add'}
+					</Button>
 					<Button onClick={onClose}>Cancel</Button>
 				</CardFooter>
 			</Card>

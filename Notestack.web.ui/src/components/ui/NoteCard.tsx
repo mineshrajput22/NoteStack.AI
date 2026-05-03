@@ -1,33 +1,39 @@
-import { Pencil, Plus, Trash2 } from 'lucide-react';
+import { Pencil, Trash2 } from 'lucide-react';
 import { Button } from './button';
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from './card';
+import { useDeleteNote } from '@/hooks/useDeleteNote';
+import { type Note } from './NoteGrid';
 
-export const NoteCard = () => {
+type NoteCardProps = {
+	note: Note;
+};
+
+export const NoteCard = ({ note }: NoteCardProps) => {
+	const { mutate: deleteNote } = useDeleteNote();
+
 	return (
 		<div>
 			<Card>
 				<CardHeader>
-					<CardTitle className='text-2xl'>Go To Gym at 5</CardTitle>
+					<CardTitle className='text-2xl'>{note.title}</CardTitle>
 				</CardHeader>
 				<CardContent className='flex flex-col gap-2'>
-					<h2 className='font-bold text-xl'>Description:</h2>
-					<div className='font-normal indent-9 border-2 border-white/20  rounded-xl p-3 border-dotted min-h-40 '>
-						<p>
-							Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ab,
-							voluptates blanditiis vero sed optio ratione, repudiandae
-							recusandae distinctio nam numquam odit ipsum voluptatibus impedit
-							autem accusamus non tempore magni libero, vitae sit in dolor. At
-							debitis amet laborum voluptatibus dolorem deleniti
-						</p>
+					<div className='font-normal indent-9 border-2 border-white/20  rounded-xl p-2 border-dotted min-h-40 '>
+						<p className='w-100% h-100%'>{note.content}</p>
 					</div>
-					<div className='font-medium'>{'#gym #routine #morning'}</div>
+					<div className='font-medium'>{note.tags}</div>
 				</CardContent>
 				<CardFooter>
 					<div className='flex gap-4 justify-end w-full'>
 						<Button>
 							<Pencil />
 						</Button>
-						<Button>
+						<Button
+							onClick={() => {
+								if (window.confirm('Delete this note?')) {
+									deleteNote(note._id);
+								}
+							}}>
 							<Trash2 />
 						</Button>
 					</div>
