@@ -81,7 +81,7 @@ export const AddNoteModal = ({ isOpen, onClose }: AddNoteModalProps) => {
 					</Field>
 
 					{/* Tags field — uses Controller since TagInput is a custom controlled component */}
-					<Field className='w-[40%]'>
+					<Field>
 						<Controller
 							control={control}
 							name='tags'

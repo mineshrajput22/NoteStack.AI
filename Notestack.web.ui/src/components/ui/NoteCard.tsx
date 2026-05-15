@@ -21,8 +21,10 @@ export const NoteCard = ({ note }: NoteCardProps) => {
 					<div className='font-normal indent-9 border-2 border-white/20  rounded-xl p-2 border-dotted min-h-40 '>
 						<p className='w-100% h-100%'>{note.content}</p>
 					</div>
-					<div className='font-medium'>
-						{note.tags?.map((tag) => <p> #{tag}</p>) || null}
+					<div className='font-medium flex flex-wrap gap-2'>
+						{note.tags?.map((tag) => (
+							<Button variant='outline'> {`#${tag}`}</Button>
+						)) || null}
 					</div>
 				</CardContent>
 				<CardFooter>

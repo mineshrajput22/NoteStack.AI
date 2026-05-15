@@ -26,15 +26,16 @@ const TagInput = ({ value = [], onChange }: TagInputProps) => {
 	};
 	return (
 		<>
-			<div>
+			<div className=' w-full flex flex-wrap gap-2'>
 				{value.map((tag, index) => (
-					<span key={index}>
-						#{tag} <button onClick={() => removeTag(tag)}>X</button>
-					</span>
+					<Button variant='outline' className='w-fit' key={index}>
+						{`#${tag}`} <span className='hover:scale-105' onClick={() => removeTag(tag)}>❌</span>
+					</Button>
 				))}
 			</div>
-			<div className=' flex items-center justify-center'>
+			<div className='flex items-center justify-start'>
 				<Input
+					className='w-[40%]'
 					id='noteTag'
 					type='text'
 					placeholder='#gym'
@@ -48,7 +49,7 @@ const TagInput = ({ value = [], onChange }: TagInputProps) => {
 					}}
 				/>
 
-				<Button className=' right-3 mx-2' onClick={() => addTag()}>
+				<Button className=' hover:scale-105 right-3 mx-2' onClick={() => addTag()}>
 					<Plus size={26} />
 				</Button>
 			</div>
