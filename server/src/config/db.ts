@@ -10,6 +10,10 @@ const connectDB = async (): Promise<void> => {
 
 		await mongoose.connect(mongoURI);
 
+		// await mongoose.connect(mongoURI, {
+		// 	family: 4, // 👈 add this
+		// });
+
 		console.log('MongoDB connected Successfully');
 	} catch (error) {
 		console.error('MongoDB connection failed', error);
