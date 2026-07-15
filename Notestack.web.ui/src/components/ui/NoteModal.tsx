@@ -8,13 +8,21 @@ import { type noteFormData, noteSchema } from '@/schemas/noteSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useAddNote } from '@/hooks/useAddNote';
 import TagInput from './TagInput';
+import { useEffect } from 'react';
 
-type AddNoteModalProps = {
+type NoteModalProps = {
 	isOpen: boolean; // controls modal visibility from parent
 	onClose: () => void; // callback to close the modal
+	type: 'add' | 'edit';
+	initialData?: noteFormData;
 };
 
-export const AddNoteModal = ({ isOpen, onClose }: AddNoteModalProps) => {
+export const NoteModal = ({
+	isOpen,
+	onClose,
+	type,
+	initialData,
+}: NoteModalProps) => {
 	// initialize form with Zod validation and empty tags as default
 	const {
 		register, // connects inputs to RHF
@@ -24,10 +32,18 @@ export const AddNoteModal = ({ isOpen, onClose }: AddNoteModalProps) => {
 		formState: { errors }, // holds field-level validation errors
 	} = useForm<noteFormData>({
 		resolver: zodResolver(noteSchema),
-		defaultValues: {
+		defaultValues: initialData ?? {
+			title: '',
+			content: '',
 			tags: [],
 		},
 	});
+
+	useEffect(() => {
+		if (initialData) {
+			reset(initialData);
+		}
+	}, [initialData, reset]);
 
 	// mutation hook — calls the API to add a note
 	const { mutate: addNote, isPending } = useAddNote({
