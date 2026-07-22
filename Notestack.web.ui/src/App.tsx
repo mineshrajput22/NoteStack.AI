@@ -6,8 +6,16 @@ import AppLayout from './components/layout/AppLayout';
 import { Dashboard } from './pages/Dashboard';
 import ProtectedRoute from './components/layout/ProtectedRoute';
 import PublicRoute from './components/layout/PublicRoute';
+import { useAuth } from './Context/useAuth';
+import { LoadingScreen } from './pages/LoadingScreen';
 
 function App() {
+	const { isLoading } = useAuth();
+
+	if (isLoading) {
+		return <LoadingScreen />;
+	}
+
 	return (
 		<Routes>
 			<Route element={<AppLayout />}>
@@ -23,7 +31,6 @@ function App() {
 				<Route
 					path='/login'
 					element={
-					
 						<PublicRoute>
 							<Login />
 						</PublicRoute>

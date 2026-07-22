@@ -1,12 +1,15 @@
 import { Request, Response } from 'express';
 import { getUser } from './user.service';
-import { success } from 'zod';
 
 export const getUserController = async (req: Request, res: Response) => {
 	try {
+		const userId = req.user._id.toString();
+
+		const user = await getUser(userId);
+
 		return res.status(200).json({
 			success: true,
-			data: req.user,
+			data: user,
 		});
 	} catch (error) {
 		res.status(500).json({
