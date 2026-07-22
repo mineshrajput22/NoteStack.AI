@@ -2,13 +2,14 @@ import { Pencil, Trash2 } from 'lucide-react';
 import { Button } from './button';
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from './card';
 import { useDeleteNote } from '@/hooks/useDeleteNote';
-import { type Note } from './NoteGrid';
+import { type Note } from '@/schemas/noteSchema';
 
 type NoteCardProps = {
 	note: Note;
+	onEdit: (note: Note) => void;
 };
 
-export const NoteCard = ({ note }: NoteCardProps) => {
+export const NoteCard = ({ note, onEdit }: NoteCardProps) => {
 	const { mutate: deleteNote } = useDeleteNote();
 
 	return (
@@ -29,7 +30,7 @@ export const NoteCard = ({ note }: NoteCardProps) => {
 				</CardContent>
 				<CardFooter>
 					<div className='flex gap-4 justify-end w-full'>
-						<Button>
+						<Button onClick={() => onEdit(note)}>
 							<Pencil />
 						</Button>
 						<Button

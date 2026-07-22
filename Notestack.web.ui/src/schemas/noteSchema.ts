@@ -7,3 +7,9 @@ export const noteSchema = z.object({
 });
 
 export type noteFormData = z.infer<typeof noteSchema>;
+
+export const noteEntitySchema = noteSchema.extend({
+	_id: z.string(),
+});
+
+export type Note = z.infer<typeof noteEntitySchema>;

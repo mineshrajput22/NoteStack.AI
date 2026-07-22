@@ -28,8 +28,11 @@ const TagInput = ({ value = [], onChange }: TagInputProps) => {
 		<>
 			<div className=' w-full flex flex-wrap gap-2'>
 				{value.map((tag, index) => (
-					<Button variant='outline' className='w-fit' key={index}>
-						{`#${tag}`} <span className='hover:scale-105' onClick={() => removeTag(tag)}>❌</span>
+					<Button type='button' variant='outline' className='w-fit' key={index}>
+						{`#${tag}`}{' '}
+						<span className='hover:scale-105' onClick={() => removeTag(tag)}>
+							❌
+						</span>
 					</Button>
 				))}
 			</div>
@@ -49,7 +52,10 @@ const TagInput = ({ value = [], onChange }: TagInputProps) => {
 					}}
 				/>
 
-				<Button className=' hover:scale-105 right-3 mx-2' onClick={() => addTag()}>
+				<Button
+					type='button'
+					className='hover:scale-105 right-3 mx-2'
+					onClick={addTag}>
 					<Plus size={26} />
 				</Button>
 			</div>

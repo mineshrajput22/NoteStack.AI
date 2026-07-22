@@ -23,7 +23,7 @@ router.post(
 router.get('/', authMiddleware, getUserNotesController);
 
 // update note
-router.put(
+router.patch(
 	'/:id',
 	authMiddleware,
 	validate(updateNoteSchema),

@@ -5,10 +5,37 @@ import { useQuery } from '@tanstack/react-query';
 import { Plus } from 'lucide-react';
 import { useState } from 'react';
 import { fetchNotesApi } from '@/api/services/noteApi';
-import { NoteModal } from '@/components/ui/noteModal';
+import { NoteModal } from '@/components/ui/NoteModal';
+import type { Note } from '@/schemas/noteSchema';
+
+type ModalState =
+	| { isOpen: false }
+	| { isOpen: true; type: 'add' }
+	| { isOpen: true; type: 'edit'; note: Note };
 
 export const Dashboard = () => {
-	const [isModalOpen, setIsModalOpen] = useState(false);
+	const [modalState, setModalState] = useState<ModalState>({ isOpen: false });
+
+	// const openCreateModal = () => {
+	// 	setModalState({
+	// 		isOpen: true,
+	// 		type: 'add',
+	// 	}); 
+	// };
+
+	const openEditMoal = (note: Note) => {
+		setModalState({
+			isOpen: true,
+			type: 'edit',
+			note,
+		});
+	};
+
+	const closeModal = () => {
+		setModalState({
+			isOpen: false,
+		});
+	};
 
 	const {
 		data: notes,
@@ -20,6 +47,19 @@ export const Dashboard = () => {
 		staleTime: 1000 * 60,
 	});
 
+	const noteModalProps =
+		modalState.isOpen && modalState.type === 'edit' ?
+			{
+				isOpen: true,
+				onClose: closeModal,
+				type: 'edit' as const,
+				note: modalState.note,
+			}
+		:	{
+				isOpen: modalState.isOpen,
+				onClose: closeModal,
+				type: 'add' as const,
+			};
 	// console.log(notes);
 
 	if (error) return <p>Error fetching notes</p>;
@@ -27,11 +67,17 @@ export const Dashboard = () => {
 	return (
 		<>
 			<SearchBar />
-			<NoteModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
-			<NoteGrid data={notes ?? []} isLoading={isLoading} />
+			<NoteModal {...noteModalProps} />
+			<NoteGrid
+				data={notes ?? []}
+				isLoading={isLoading}
+				onEdit={openEditMoal}
+			/>
 
 			<div className='fixed right-8 bottom-8 '>
-				<Button size='lg' onClick={() => setIsModalOpen(true)}>
+				<Button
+					size='lg'
+					onClick={() => setModalState({ isOpen: true, type: 'add' })}>
 					<Plus />
 				</Button>
 			</div>

@@ -9,6 +9,11 @@ const app: Application = express();
 app.use(cors());
 app.use(express.json());
 
+app.use((req, res, next) => {
+	console.log('Incoming request:', req.method, req.originalUrl);
+	next();
+});
+
 app.get('/health', (req: Request, res: Response) => {
 	res.status(200).json({
 		succes: true,
